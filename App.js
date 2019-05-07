@@ -17,8 +17,8 @@ export default class App extends Component {
   }
 
   registerUser() {
-    var email = 'vitoria.curso@gmail.com';
-    var password = 'vitoria123';
+    var email = 'vitoria@gmail.com';
+    var password = 'vitoria1';
 
     const user = firebase.auth();
     user.createUserWithEmailAndPassword(
@@ -28,24 +28,50 @@ export default class App extends Component {
       (erro) => {
         alert(erro.message)
       }
-    )
+    );
   }
 
   checkLoggedUser() {
     const user = firebase.auth();
-    const usuarioAtual = user.currentUser;
-    if(usuarioAtual){
-      alert('Logged User');
-    }else{
-      alert('Sign in');
-    }
+    user.onAuthStateChanged(
+      usuarioAtual => {
+        if (usuarioAtual) {
+          alert('Logged User');
+        } else {
+          alert('Sign in');
+        }
+      }
+    );
+  }
+
+  userLogin() {
+    var email = 'vitoria@gmail.com';
+    var password = 'vitoria1';
+
+    const user = firebase.auth();
+    user.signInWithEmailAndPassword(
+      email,
+      password
+    ).catch(
+      (erro) => {
+        alert(erro.message)
+      }
+    )
+  }
+
+  userLogout() {
+    const user = firebase.auth();
+    user.signOut();
   }
 
   render() {
     return (
-      <SafeAreaView>
+      <SafeAreaView
+        style={{ backgroundColor: '#f9fdff', flex: 1 }}
+      >
         <Button
           onPress={() => { this.registerUser(); }}
+          color='#04f700'
           title='Register User'
           accessibilityLabel='Register User'
         />
@@ -53,6 +79,17 @@ export default class App extends Component {
           onPress={() => { this.checkLoggedUser(); }}
           title='Check Logged User '
           accessibilityLabel='Check the logged in user'
+        />
+        <Button
+          onPress={() => { this.userLogout(); }}
+          color='#f70000'
+          title='Logout'
+          accessibilityLabel='Logout'
+        />
+        <Button
+          onPress={() => { this.userLogin(); }}
+          title='Login'
+          accessibilityLabel='Login'
         />
       </SafeAreaView>
     );
