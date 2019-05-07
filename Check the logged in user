@@ -1,0 +1,26 @@
+  checkLoggedUser() {
+    const user = firebase.auth();
+    const usuarioAtual = user.currentUser;
+    if(usuarioAtual){
+      alert('Logged User');
+    }else{
+      alert('Sign in');
+    }
+  }
+  
+  
+//Com ouvinte
+
+checkLoggedUser() {
+    const user = firebase.auth();
+    user.onAuthStateChanged(
+      usuarioAtual => {
+        if (usuarioAtual) {
+          alert('Logged User');
+        } else {
+          alert('Sign in');
+        }
+      }
+    );
+  }
+   
